@@ -7,10 +7,10 @@
     <orderEntry type="module-library">
       <library name="PHP">
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../wordpress/Cores/4.1" />
+          <root url="file://$MODULE_DIR$/../../Resources/WordPress/Cores/4.2.2" />
         </CLASSES>
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../wordpress/Cores/4.1" />
+          <root url="file://$MODULE_DIR$/../../Resources/WordPress/Cores/4.2.2" />
         </SOURCES>
       </library>
     </orderEntry>

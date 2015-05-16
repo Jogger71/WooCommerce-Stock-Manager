@@ -2,12 +2,12 @@
 
 /**
  * Plugin Name: WooCommerce Stock Manager
- * Author: Plugin Gateway
- * Author URI: http://www.plugingateway.com/
+ * Author: Graphite Programming
+ * Author URI: http://www.graphiteprogramming.com/
  *
- * Description: Easily manage and control the stock of your woocommerce store. Create and automatically send purchase orders to your suppliers.
+ * Description: A system purely dedicated to stock management in woocommerce.
  *
- * Version: 0.0.0.000
+ * Version: 0.0.0
  * Release: DEVELOPMENT
  */
 
@@ -15,8 +15,11 @@ if ( !defined ( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( !class_exists( 'WC_STOCK_MAN' ) ) {
-	class WC_STOCK_MAN {
+if ( !class_exists( 'WC_Stock_Manager' ) ) {
+	class WC_Stock_Manager {
+		/**
+		 *
+		 */
 
 		public function __construct() {
 
@@ -24,4 +27,4 @@ if ( !class_exists( 'WC_STOCK_MAN' ) ) {
 	}
 }
 
-$GLOBALS['wc_stock_man'] = new WC_STOCK_MAN();
+$GLOBALS['wc_stock_manager'] = new WC_Stock_Manager();

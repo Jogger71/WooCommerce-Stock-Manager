@@ -51,15 +51,18 @@ if ( ! class_exist( 'WCSM_Admin' ) ) {
 	    }
 
 	    public function wscm_admin_overview() {
-		    include( ABSPATH . '');
+            global $wc_stock_manager;
+		    include( $wc_stock_manager->get_plugin_path() . 'templates/pages/admin-overview.php' );
 	    }
 
 	    public function wscm_admin_updates() {
-
+            global $wc_stock_manager;
+            include( $wc_stock_manager->get_plugin_path() . 'templates/pages/admin-updates.php' );
 	    }
 
 	    public function wscm_admin_stock_take() {
-
+            global $wc_stock_manager;
+            include( $wc_stock_manager->get_plugin_path() . 'templates/pages/admin-stock-take.php' );
 	    }
     }
 }

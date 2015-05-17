@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: WooCommerce Stock Manager
+ * Plugin Name: WooCommerce Inventory Manager
  * Author: Graphite Programming
  * Author URI: http://www.graphiteprogramming.com/
  *
@@ -15,8 +15,8 @@ if ( !defined ( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( !class_exists( 'WC_Stock_Manager' ) ) {
-	class WC_Stock_Manager {
+if ( !class_exists( 'WC_Inventory_Manager' ) ) {
+	class WC_Inventory_Manager {
 		/**
 		 * Admin Class variable
 		 */
@@ -31,11 +31,16 @@ if ( !class_exists( 'WC_Stock_Manager' ) ) {
          * All product ids
          */
         private $product_ids;
+        private $variation_ids;
 
 		public function __construct() {
             //  Set some variables
             $this->plugin_location = plugin_dir_path( __FILE__ );
-            $this->product_ids = $this->get_all_products();
+            include( $this->plugin_location . 'classes/class-wcsm-admin.php' );
+            $this->admin = new WCSM_Admin();
+
+            //  Actions
+            add_action( 'init', array( $this, 'set_products' ) );
 		}
 
         public function get_plugin_path() {
@@ -44,6 +49,15 @@ if ( !class_exists( 'WC_Stock_Manager' ) ) {
 
         public function get_product_ids() {
             return $this->product_ids;
+        }
+
+        public function get_variation_ids() {
+            return $this->variation_ids;
+        }
+
+        public function set_products() {
+            $this->product_ids = $this->get_all_products();
+            $this->variation_ids = $this->get_all_variations();
         }
 
         public function get_all_products() {
@@ -65,7 +79,27 @@ if ( !class_exists( 'WC_Stock_Manager' ) ) {
             //  Return the ids
             return $products;
         }
+
+        public function get_all_variations() {
+            $products = [];
+
+            $arguments = array(
+                'post_type' => 'product_variation',
+                'posts_per_page' => -1
+            );
+
+            $query = new WP_Query( $arguments );
+
+            while( $query->have_posts() ) : $query->the_post();
+                $products[] = get_the_ID();
+            endwhile;
+
+            wp_reset_query();
+
+            //  Return the ids
+            return $products;
+        }
 	}
 }
 
-$GLOBALS['wc_stock_manager'] = new WC_Stock_Manager();
+$GLOBALS['wc_inventory_manager'] = new WC_Inventory_Manager();

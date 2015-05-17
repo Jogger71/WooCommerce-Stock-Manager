@@ -5,7 +5,7 @@
  * @since 1.0.0
  */
 
-if ( ! class_exist( 'WCSM_Admin' ) ) {
+if ( ! class_exists( 'WCSM_Admin' ) ) {
     class WCSM_Admin {
 
         public function __construct() {
@@ -51,18 +51,18 @@ if ( ! class_exist( 'WCSM_Admin' ) ) {
 	    }
 
 	    public function wscm_admin_overview() {
-            global $wc_stock_manager;
-		    include( $wc_stock_manager->get_plugin_path() . 'templates/pages/admin-overview.php' );
+            global $wc_inventory_manager;
+		    include( $wc_inventory_manager->get_plugin_path() . 'templates/pages/admin-overview.php' );
 	    }
 
 	    public function wscm_admin_updates() {
-            global $wc_stock_manager;
-            include( $wc_stock_manager->get_plugin_path() . 'templates/pages/admin-updates.php' );
+            global $wc_inventory_manager;
+            include( $wc_inventory_manager->get_plugin_path() . 'templates/pages/admin-updates.php' );
 	    }
 
 	    public function wscm_admin_stock_take() {
-            global $wc_stock_manager;
-            include( $wc_stock_manager->get_plugin_path() . 'templates/pages/admin-stock-take.php' );
+            global $wc_inventory_manager;
+            include( $wc_inventory_manager->get_plugin_path() . 'templates/pages/admin-stock-take.php' );
 	    }
     }
 }

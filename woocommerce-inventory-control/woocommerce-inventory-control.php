@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: WooCommerce Inventory Manager
+ * Plugin Name: WooCommerce Inventory Control
  * Author: Graphite Programming
  * Author URI: http://www.graphiteprogramming.com/
  *
@@ -15,8 +15,8 @@ if ( !defined ( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( !class_exists( 'WC_Inventory_Manager' ) ) {
-	class WC_Inventory_Manager {
+if ( !class_exists( 'WC_Inventory_Control' ) ) {
+	class WC_Inventory_Control {
 		/**
 		 * Admin Class variable
 		 */
@@ -41,6 +41,7 @@ if ( !class_exists( 'WC_Inventory_Manager' ) ) {
 
             //  Actions
             add_action( 'init', array( $this, 'set_products' ) );
+            add_action( 'admin_enqueue_scripts', array( $this, 'styling' ) );
 		}
 
         public function get_plugin_path() {
@@ -99,7 +100,13 @@ if ( !class_exists( 'WC_Inventory_Manager' ) ) {
             //  Return the ids
             return $products;
         }
+
+        public function styling() {
+            if ( ! wp_style_is( 'wcsm_interface', 'enqueued' ) ) {
+                wp_enqueue_style( 'wcsm_interface', plugins_url( 'assets/css/wcsm_interface.css', __FILE__ ) );
+            }
+        }
 	}
 }
 
-$GLOBALS['wc_inventory_manager'] = new WC_Inventory_Manager();
+$GLOBALS['wc_inventory_control'] = new WC_Inventory_Control();

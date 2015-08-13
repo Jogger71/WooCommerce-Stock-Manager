@@ -11,7 +11,7 @@
  * Release: DEVELOPMENT
  */
 
-if ( !defined ( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
@@ -20,93 +20,93 @@ if ( !class_exists( 'WC_Inventory_Control' ) ) {
 		/**
 		 * Admin Class variable
 		 */
-        private $admin;
+		private $admin;
 
-        /**
-         * Plugin Location Variable
-         */
-        private $plugin_location;
+		/**
+		 * Plugin Location Variable
+		 */
+		private $plugin_location;
 
-        /**
-         * All product ids
-         */
-        private $product_ids;
-        private $variation_ids;
+		/**
+		 * All product ids
+		 */
+		private $product_ids;
+		private $variation_ids;
 
 		public function __construct() {
-            //  Set some variables
-            $this->plugin_location = plugin_dir_path( __FILE__ );
-            include( $this->plugin_location . 'classes/class-wcsm-admin.php' );
-            $this->admin = new WCSM_Admin();
+			//  Set some variables
+			$this->plugin_location = dirname( __FILE__ );
+			include( $this->plugin_location . '/classes/class-wcsm-admin.php' );
+			$this->admin = new WCSM_Admin();
 
-            //  Actions
-            add_action( 'init', array( $this, 'set_products' ) );
-            add_action( 'admin_enqueue_scripts', array( $this, 'styling' ) );
+			//  Actions
+			add_action( 'init', array( $this, 'set_products' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'styling' ) );
 		}
 
-        public function get_plugin_path() {
-            return $this->plugin_location;
-        }
+		public function get_plugin_path() {
+			return $this->plugin_location;
+		}
 
-        public function get_product_ids() {
-            return $this->product_ids;
-        }
+		public function get_product_ids() {
+			return $this->product_ids;
+		}
 
-        public function get_variation_ids() {
-            return $this->variation_ids;
-        }
+		public function get_variation_ids() {
+			return $this->variation_ids;
+		}
 
-        public function set_products() {
-            $this->product_ids = $this->get_all_products();
-            $this->variation_ids = $this->get_all_variations();
-        }
+		public function set_products() {
+			$this->product_ids = $this->get_all_products();
+			$this->variation_ids = $this->get_all_variations();
+		}
 
-        public function get_all_products() {
-            $products = [];
+		public function get_all_products() {
+			$products = [ ];
 
-            $arguments = array(
-                'post_type' => 'product',
-                'posts_per_page' => -1
-            );
+			$arguments = array(
+				'post_type'      => 'product',
+				'posts_per_page' => -1
+			);
 
-            $query = new WP_Query( $arguments );
+			$query = new WP_Query( $arguments );
 
-            while( $query->have_posts() ) : $query->the_post();
-                $products[] = get_the_ID();
-            endwhile;
+			while ( $query->have_posts() ) : $query->the_post();
+				$products[] = get_the_ID();
+			endwhile;
 
-            wp_reset_query();
+			wp_reset_query();
 
-            //  Return the ids
-            return $products;
-        }
+			//  Return the ids
+			return $products;
+		}
 
-        public function get_all_variations() {
-            $products = [];
+		public function get_all_variations() {
+			$products = [ ];
 
-            $arguments = array(
-                'post_type' => 'product_variation',
-                'posts_per_page' => -1
-            );
+			$arguments = array(
+				'post_type'      => 'product_variation',
+				'posts_per_page' => -1
+			);
 
-            $query = new WP_Query( $arguments );
+			$query = new WP_Query( $arguments );
 
-            while( $query->have_posts() ) : $query->the_post();
-                $products[] = get_the_ID();
-            endwhile;
+			while ( $query->have_posts() ) : $query->the_post();
+				$products[] = get_the_ID();
+			endwhile;
 
-            wp_reset_query();
+			wp_reset_query();
 
-            //  Return the ids
-            return $products;
-        }
+			//  Return the ids
+			return $products;
+		}
 
-        public function styling() {
-            if ( ! wp_style_is( 'wcsm_interface', 'enqueued' ) ) {
-                wp_enqueue_style( 'wcsm_interface', plugins_url( 'assets/css/wcsm_interface.css', __FILE__ ) );
-            }
-        }
+		public function styling() {
+			if ( !wp_style_is( 'wcsm_interface', 'enqueued' ) ) {
+				wp_enqueue_style( 'wcsm_interface', plugins_url( 'assets/css/wcsm_interface.css', __FILE__ ) );
+			}
+		}
 	}
 }
 
-$GLOBALS['wc_inventory_control'] = new WC_Inventory_Control();
+$GLOBALS[ 'wc_inventory_control' ] = new WC_Inventory_Control();

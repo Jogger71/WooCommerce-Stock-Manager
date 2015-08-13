@@ -7,10 +7,12 @@
     <orderEntry type="module-library">
       <library name="PHP">
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../../Resources/WordPress/Cores/4.1.1/wordpress" />
+          <root url="file://$MODULE_DIR$/../../WordPress/Cores/4.2.2" />
+          <root url="file://$MODULE_DIR$/../../WordPress/Plugins/woocommerce" />
         </CLASSES>
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../../Resources/WordPress/Cores/4.1.1/wordpress" />
+          <root url="file://$MODULE_DIR$/../../WordPress/Cores/4.2.2" />
+          <root url="file://$MODULE_DIR$/../../WordPress/Plugins/woocommerce" />
         </SOURCES>
       </library>
     </orderEntry>

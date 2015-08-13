@@ -18,25 +18,25 @@
 </td>
 <td class="column-add">
 	<label class="switch switch-green">
-		<input type="radio" class="switch-input" name="stock_update_method[<?php echo $product->id; ?>]" value="add" checked />
+		<input type="radio" class="switch-input" name="stock_update_method[<?php echo $product->id; ?>]" value="add" checked/>
 		<span class="switch-label" data-on="On" data-off="Off"></span>
 		<span class="switch-handle"></span>
 	</label>
 </td>
 <td class="column-subtract">
 	<label class="switch switch-green">
-		<input type="radio" class="switch-input" name="stock_update_method[<?php echo $product->id; ?>]" value="subtract" />
+		<input type="radio" class="switch-input" name="stock_update_method[<?php echo $product->id; ?>]" value="subtract"/>
 		<span class="switch-label" data-on="On" data-off="Off"></span>
 		<span class="switch-handle"></span>
 	</label>
 </td>
 <td class="column-set">
 	<label class="switch switch-green">
-		<input type="radio" class="switch-input" name="stock_update_method[<?php echo $product->id; ?>]" value="set" />
+		<input type="radio" class="switch-input" name="stock_update_method[<?php echo $product->id; ?>]" value="set"/>
 		<span class="switch-label" data-on="On" data-off="Off"></span>
 		<span class="switch-handle"></span>
 	</label>
 </td>
 <td class="column-amount">
-	<input type="text" name="stock_update_amount[<?php echo $product->id; ?>]" placeholder="Amount" />
+	<input type="text" name="stock_update_amount[<?php echo $product->id; ?>]" placeholder="Amount"/>
 </td>

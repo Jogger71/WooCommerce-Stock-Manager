@@ -4,7 +4,7 @@
  * Stock Management class
  */
 
-if ( !defined ( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 

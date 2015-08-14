@@ -1,0 +1,2 @@
+Version 0.1.0 -- Initial Release
+	Initial Release simply gives an overview of all the products' stock levels.

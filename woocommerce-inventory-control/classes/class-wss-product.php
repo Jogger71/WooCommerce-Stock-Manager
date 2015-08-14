@@ -4,11 +4,11 @@
  * A Custom product class for easy use in the WooCommerce Stock System
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WSS_Product' ) ) {
+if ( !class_exists( 'WSS_Product' ) ) {
 	class WSS_Product {
 		/**
 		 * Product ID
@@ -54,18 +54,18 @@ if ( ! class_exists( 'WSS_Product' ) ) {
 
 		/**
 		 * WooCommerce product object
-		 * @var WC_Product $wc_product
+		 * @var WC_Product|WC_Product_Variation $wc_product
 		 * @since 0.1.0
 		 */
-		private $wc_product;
+		public $wc_product;
 
 
 		/**
 		 * Class Constructor
 		 * @param int|null $id
 		 */
-		public function __construct( $id=null) {
-			if ( ! empty( $id ) ) {
+		public function __construct( $id = null ) {
+			if ( !empty( $id ) ) {
 				//  Initialise WooCommerce product
 				$this->wc_product = wc_get_product( $id );
 
@@ -185,6 +185,12 @@ if ( ! class_exists( 'WSS_Product' ) ) {
 		 * @since 0.1.0
 		 */
 		public function get_name() {
+			if ( 'variation' == $this->wc_product->product_type ) {
+				$attr = $this->wc_product->get_variation_attributes();
+				$keys = array_keys( $attr );
+				$this->name .= ' ' . $attr[ $keys[0] ];
+			}
+
 			return $this->name;
 		}
 

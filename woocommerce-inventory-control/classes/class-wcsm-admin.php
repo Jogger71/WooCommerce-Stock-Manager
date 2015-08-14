@@ -39,25 +39,14 @@ if ( !class_exists( 'WCSM_Admin' ) ) {
 				'wcsm-update-stocks',
 				array( $this, 'wcsm_admin_updates' )
 			);
-
-			add_submenu_page(
-				'wcsm-stocks',
-				'Stock Taking',
-				'Stock Take',
-				'manage_options',
-				'wcsm-stock-take',
-				array( $this, 'wcsm_admin_stock_take' )
-			);
 		}
 
 		public function wcsm_admin_overview() {
-			global $wc_inventory_control;
-			include( $wc_inventory_control->get_plugin_path() . 'templates/pages/admin-overview.php' );
+			include( WSS_PLUGIN_LOCATION . '/templates/pages/admin-overview.php' );
 		}
 
 		public function wcsm_admin_updates() {
-			global $wc_inventory_control;
-			include( $wc_inventory_control->get_plugin_path() . 'templates/pages/admin-updates.php' );
+			include( WSS_PLUGIN_LOCATION . '/templates/pages/admin-updates.php' );
 		}
 	}
 }

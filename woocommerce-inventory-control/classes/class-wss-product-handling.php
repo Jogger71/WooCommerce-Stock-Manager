@@ -21,7 +21,9 @@ if ( !class_exists( 'WSS_Product_Handling' ) ) {
 		public static function get_products( $type = 'product' ) {
 			$args = array(
 				'posts_per_page' => -1,
-				'post_type'      => $type
+				'post_type'      => $type,
+				'orderby'        => 'title',
+				'order'          => 'ASC'
 			);
 
 			return get_posts( $args );
@@ -45,11 +47,19 @@ if ( !class_exists( 'WSS_Product_Handling' ) ) {
 						'post_status' => 'publish'
 					);
 
-					if ( !empty( get_children( $children_args ) ) ) {
-						$children = get_children( $children_args );
+					if ( !empty( get_posts( $children_args ) ) ) {
+						$children = get_posts( $children_args );
+
+						foreach ( $children as $child ) {
+							$display_products[] = $child;
+						}
+					} else {
+						$display_products[] = $product;
 					}
 				}
 			}
+
+			return $display_products;
 		}
 
 		/**

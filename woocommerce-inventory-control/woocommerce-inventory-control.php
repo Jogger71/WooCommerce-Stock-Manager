@@ -33,19 +33,20 @@ if ( !class_exists( 'WC_Inventory_Control' ) ) {
 		private $product_ids;
 		private $variation_ids;
 
+		/**
+		 * Class Constructor
+		 */
 		public function __construct() {
 			//  Set some variables
-			$this->plugin_location = dirname( __FILE__ );
-			include( $this->plugin_location . '/classes/class-wcsm-admin.php' );
+			define( 'WSS_PLUGIN_LOCATION', dirname( __FILE__ ) );
+			include( WSS_PLUGIN_LOCATION . '/classes/class-wcsm-admin.php' );
+			include( WSS_PLUGIN_LOCATION . '/classes/class-wss-product-handling.php' );
+			include( WSS_PLUGIN_LOCATION . '/classes/class-wss-product.php' );
 			$this->admin = new WCSM_Admin();
 
 			//  Actions
 			add_action( 'init', array( $this, 'set_products' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'styling' ) );
-		}
-
-		public function get_plugin_path() {
-			return $this->plugin_location;
 		}
 
 		public function get_product_ids() {

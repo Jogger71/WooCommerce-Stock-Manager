@@ -2,11 +2,13 @@
 
 /**
  * WC Stock Manager Overview admin page.
+ * @since 0.1.0
  */
 
 global $wc_inventory_control;
 
 $product_ids = $wc_inventory_control->get_product_ids();
+$single_products = WSS_Product_Handling::get_all_products();
 $variations = $wc_inventory_control->get_variation_ids();
 
 ?>
@@ -15,40 +17,27 @@ $variations = $wc_inventory_control->get_variation_ids();
 	<table style="border: 1px solid #000; ">
 		<thead>
 			<tr>
-				<th style="border: 1px solid #000;">ID</th>
-				<th style="border: 1px solid #000;">Name</th>
-				<th style="border: 1px solid #000;">Price</th>
-				<th style="border: 1px solid #000;">Managing Stock</th>
-				<th style="border: 1px solid #000;">Stock</th>
+				<th style="border: 1px solid #000; padding: 10px;">ID</th>
+				<th style="border: 1px solid #000; padding: 10px;">Image</th>
+				<th style="border: 1px solid #000; padding: 10px;">Name</th>
+				<th style="border: 1px solid #000; padding: 10px;">Total Sales</th>
+				<th style="border: 1px solid #000; padding: 10px;">Stock</th>
 			</tr>
 		</thead>
 		<?php
-		foreach ( $product_ids as $id ) {
-			$product = wc_get_product( $id );
-
-			?>
-			<tr>
-				<td style="border: 1px solid #000;"><?php echo $product->id; ?></td>
-				<td style="border: 1px solid #000;"><?php echo $product->get_title(); ?></td>
-				<td style="border: 1px solid #000;"><?php echo $product->get_price(); ?></td>
-				<td style="border: 1px solid #000;"><?php echo $product->managing_stock() ? 'Yes' : 'No'; ?></td>
-				<td style="border: 1px solid #000;"><?php echo $product->managing_stock() ? $product->get_stock_quantity() : 'Not Managing Stock'; ?></td>
-			</tr>
-			<?php
-		}
-
-		foreach ( $variations as $id ) {
-			$product = wc_get_product( $id );
-
-			?>
-			<tr>
-				<td style="border: 1px solid #000;"><?php echo $product->id; ?></td>
-				<td style="border: 1px solid #000;"><?php echo $product->get_title(); ?></td>
-				<td style="border: 1px solid #000;"><?php echo $product->get_price(); ?></td>
-				<td style="border: 1px solid #000;"><?php echo $product->managing_stock() ? 'Yes' : 'No'; ?></td>
-				<td style="border: 1px solid #000;"><?php echo $product->managing_stock() ? $product->get_stock_quantity() : 'Not Managing Stock'; ?></td>
-			</tr>
-			<?php
+		foreach ( $single_products as $product ) {
+			$wss_product = new WSS_Product( $product->ID );
+			if ( $wss_product->wc_product->managing_stock() ):
+				?>
+				<tr>
+					<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_id(); ?></td>
+					<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_image_url(); ?></td>
+					<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_name(); ?></td>
+					<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_total_sales(); ?></td>
+					<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_stock_available()?></td>
+				</tr>
+				<?php
+			endif;
 		}
 		?>
 	</table>

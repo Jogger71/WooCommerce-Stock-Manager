@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Plugin Name: WooCommerce Inventory Control
+ * Plugin Name: WooCommerce Stock System
  * Author: Graphite Programming
  * Author URI: http://www.graphiteprogramming.com/
  *
  * Description: A system purely dedicated to stock management in woocommerce.
  *
- * Version: 0.0.0
+ * Version: 0.1.0
  * Release: DEVELOPMENT
  */
 

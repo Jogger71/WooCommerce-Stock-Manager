@@ -59,10 +59,5 @@ if ( !class_exists( 'WCSM_Admin' ) ) {
 			global $wc_inventory_control;
 			include( $wc_inventory_control->get_plugin_path() . 'templates/pages/admin-updates.php' );
 		}
-
-		public function wcsm_admin_stock_take() {
-			global $wc_inventory_control;
-			include( $wc_inventory_control->get_plugin_path() . 'templates/pages/admin-stock-take.php' );
-		}
 	}
 }

@@ -106,5 +106,21 @@ if ( !class_exists( 'WSS_Product_Handling' ) ) {
 
 			return get_post( $parent_id );
 		}
+
+		/**
+		 * Check if product is bundled
+		 * @param int|WP_Post|WC_Product $product
+		 * @return bool
+		 * @since 0.1.0
+		 */
+		public function is_bundle_product( $product ) {
+			if ( is_numeric( $product ) ) {
+				return empty( get_post_meta( $product, '_bundle_data' ) );
+			} else if ( $product instanceof WP_Post ) {
+				return empty( get_post_meta( $product->ID, '_bundle_data' ) );
+			} else {
+				return empty( get_post_meta( $product->id, '_bundle_data' ) );
+			}
+		}
 	}
 }

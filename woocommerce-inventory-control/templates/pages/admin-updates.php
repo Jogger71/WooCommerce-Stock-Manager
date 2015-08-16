@@ -4,9 +4,7 @@
  * Stock update page
  */
 
-global $wc_inventory_control;
-
-$product_ids = $wc_inventory_control->get_product_ids();
+$products = WSS_Product_Handling::get_products();
 
 if ( 'stock_update' == $_REQUEST[ 'submitted' ] ) {
 	//  Update stock
@@ -14,8 +12,10 @@ if ( 'stock_update' == $_REQUEST[ 'submitted' ] ) {
 	$product_update_method = $_REQUEST[ 'stock_update_method' ];
 
 	foreach ( $product_amounts as $key => $amount ) {
-		$update_product = wc_get_product( $key );
-		$update_product->set_stock( $amount, $product_update_method[ $key ] );
+		//  $update_product = wc_get_product( $key );
+		$update_product = new WSS_Product( $key );
+		$update_product->wc_product->set_stock( $amount, $product_update_method[ $key ] );
+		$update_product->update_stock_on_hand( $amount, $product_update_method[ $key ] );
 	}
 }
 
@@ -38,15 +38,23 @@ if ( 'stock_update' == $_REQUEST[ 'submitted' ] ) {
 				</tr>
 			</thead>
 			<?php
-			foreach ( $product_ids as $id ) {
-				$product = wc_get_product( $id );
-				?>
-				<tr class="product-row">
-					<?php
-					include( $wc_inventory_control->get_plugin_path() . 'templates/template-stock-adjust.php' );
-					?>
-				</tr>
-				<?php
+			foreach ( $products as $product_post ) {
+				$product = new WSS_Product( $product_post->ID );
+				if ( $product->wc_product->managing_stock() ) :
+					switch ( $product->wc_product->product_type ) {
+						case 'simple':
+							?>
+							<tr class="product-row">
+								<?php
+								include( WSS_PLUGIN_LOCATION . '/templates/template-stock-adjust.php' );
+								?>
+							</tr>
+							<?php
+							break;
+						case 'variable':
+
+					}
+				endif;
 			}
 			?>
 		</table>

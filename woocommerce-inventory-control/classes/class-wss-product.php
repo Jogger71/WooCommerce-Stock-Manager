@@ -54,7 +54,7 @@ if ( !class_exists( 'WSS_Product' ) ) {
 
 		/**
 		 * WooCommerce product object
-		 * @var WC_Product|WC_Product_Variation $wc_product
+		 * @var WC_Product|WC_Product_Variation|WC_Product_Bundle|WC_Product_Variable|WC_Product_Simple $wc_product
 		 * @since 0.1.0
 		 */
 		public $wc_product;
@@ -74,7 +74,8 @@ if ( !class_exists( 'WSS_Product' ) ) {
 				$this->set_name( $this->wc_product->get_title() );
 				$this->set_image_url( $this->wc_product->get_image() );
 				$this->set_stock_available( $this->wc_product->get_stock_quantity() );
-				$this->set_total_sales( get_post_meta( $this->id, 'total_sales' ) );
+				$this->set_stock_on_hand( get_post_meta( $this->get_id(), 'stock_on_hand', true ) );
+				$this->set_total_sales( get_post_meta( $this->id, 'total_sales', true ) );
 			}
 		}
 
@@ -146,12 +147,7 @@ if ( !class_exists( 'WSS_Product' ) ) {
 		 * @since 0.1.0
 		 */
 		public function set_stock_on_hand( $value ) {
-			if ( is_int( $value ) ) {
-				$this->stock_on_hand = $value;
-				return true;
-			} else {
-				return false;
-			}
+			$this->stock_on_hand = $value;
 		}
 
 		/**
@@ -161,7 +157,7 @@ if ( !class_exists( 'WSS_Product' ) ) {
 		 * @since 0.1.0
 		 */
 		public function set_total_sales( $value ) {
-			if ( is_int( $value ) ) {
+			if ( is_int( $value ) || is_string( $value ) ) {
 				$this->total_sales = $value;
 				return true;
 			} else {
@@ -188,7 +184,7 @@ if ( !class_exists( 'WSS_Product' ) ) {
 			if ( 'variation' == $this->wc_product->product_type ) {
 				$attr = $this->wc_product->get_variation_attributes();
 				$keys = array_keys( $attr );
-				$this->name .= ' ' . $attr[ $keys[0] ];
+				$this->name .= ' ' . $attr[ $keys[ 0 ] ];
 			}
 
 			return $this->name;
@@ -228,6 +224,50 @@ if ( !class_exists( 'WSS_Product' ) ) {
 		 */
 		public function  get_total_sales() {
 			return $this->total_sales;
+		}
+
+		/**
+		 * Update stock on hand level
+		 * @param int $value
+		 * @param string $method
+		 * @since 0.2.0
+		 */
+		public function update_stock_on_hand( $value, $method = 'set' ) {
+			switch ( $method ) {
+				case 'add':
+					$current_stock_on_hand = $this->get_stock_on_hand();
+					$this->set_stock_on_hand( $current_stock_on_hand + $value );
+					update_post_meta( $this->get_id(), 'stock_on_hand', $this->get_stock_on_hand() );
+					break;
+				case 'subtract':
+					$current_stock_on_hand = $this->get_stock_on_hand();
+					$this->set_stock_on_hand( $current_stock_on_hand - $value );
+					update_post_meta( $this->get_id(), 'stock_on_hand', $this->get_stock_on_hand() );
+					break;
+				default:
+					$this->set_stock_on_hand( $value );
+					update_post_meta( $this->get_id(), 'stock_on_hand', $this->get_stock_on_hand() );
+					break;
+			}
+		}
+
+		/**
+		 * Reduce stock on hand level
+		 * @param int $value
+		 * @return bool
+		 * @since 0.2.0
+		 */
+		public function reduce_stock_on_hand( $value ) {
+			$this->update_stock_on_hand( $value, 'subtract' );
+		}
+
+		/**
+		 * Increase stock on hand level
+		 * @param int $value
+		 * @since 0.2.0
+		 */
+		public function increase_stock_on_hand( $value ) {
+			$this->update_stock_on_hand( $value, 'add' );
 		}
 	}
 }

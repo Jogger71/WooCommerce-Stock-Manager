@@ -23,17 +23,6 @@ if ( !class_exists( 'WC_Inventory_Control' ) ) {
 		private $admin;
 
 		/**
-		 * Plugin Location Variable
-		 */
-		private $plugin_location;
-
-		/**
-		 * All product ids
-		 */
-		private $product_ids;
-		private $variation_ids;
-
-		/**
 		 * Class Constructor
 		 */
 		public function __construct() {
@@ -47,61 +36,36 @@ if ( !class_exists( 'WC_Inventory_Control' ) ) {
 			//  Actions
 			add_action( 'init', array( $this, 'set_products' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'styling' ) );
+			//  add_action( 'woocommerce_reduce_order_stock', array( $this, 'wss_reduce_stock' ) );
+			add_action( 'woocommerce_order_status_completed', array( $this, 'wss_reduce_stock_on_hand' ) );
 		}
 
-		public function get_product_ids() {
-			return $this->product_ids;
+		/**
+		 * Reduce stock on hand when order is marked completed
+		 * @param int $order
+		 * @since 0.2.0
+		 */
+		public function wss_reduce_stock_on_hand( $order ) {
+			if ( is_numeric( $order ) ) {
+				$order_obj = wc_get_order( $order );
+
+				$items = $order_obj->get_items();
+				foreach ( $items as $item ) {
+					$product_id = $item[ 'product_id' ];
+					$product_obj = new WSS_Product( $product_id );
+
+					$qty = apply_filters( 'woocommerce_order_item_quantity', $item[ 'qty' ], $order_obj, $item );
+					$qty = (int) $qty;
+
+					$product_obj->reduce_stock_on_hand( $qty );
+				}
+			}
 		}
 
-		public function get_variation_ids() {
-			return $this->variation_ids;
-		}
-
-		public function set_products() {
-			$this->product_ids = $this->get_all_products();
-			$this->variation_ids = $this->get_all_variations();
-		}
-
-		public function get_all_products() {
-			$products = [ ];
-
-			$arguments = array(
-				'post_type'      => 'product',
-				'posts_per_page' => -1
-			);
-
-			$query = new WP_Query( $arguments );
-
-			while ( $query->have_posts() ) : $query->the_post();
-				$products[] = get_the_ID();
-			endwhile;
-
-			wp_reset_query();
-
-			//  Return the ids
-			return $products;
-		}
-
-		public function get_all_variations() {
-			$products = [ ];
-
-			$arguments = array(
-				'post_type'      => 'product_variation',
-				'posts_per_page' => -1
-			);
-
-			$query = new WP_Query( $arguments );
-
-			while ( $query->have_posts() ) : $query->the_post();
-				$products[] = get_the_ID();
-			endwhile;
-
-			wp_reset_query();
-
-			//  Return the ids
-			return $products;
-		}
-
+		/**
+		 * Load all style files
+		 * @since 0.2.0
+		 */
 		public function styling() {
 			if ( !wp_style_is( 'wcsm_interface', 'enqueued' ) ) {
 				wp_enqueue_style( 'wcsm_interface', plugins_url( 'assets/css/wcsm_interface.css', __FILE__ ) );

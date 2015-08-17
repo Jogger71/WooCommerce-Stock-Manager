@@ -13,6 +13,9 @@
 <td class="column-stock <?php echo $product->wc_product->managing_stock () ? ( ( $product->wc_product->get_stock_quantity () == 0 ) ? 'out-of-stock' : 'in-stock' ) : 'not-managing'; ?>">
 	<?php echo $product->wc_product->managing_stock () ? $product->wc_product->get_stock_quantity () : 'Not Managing Stock'; ?>
 </td>
+<td class="column-stock <?php echo $product->wc_product->managing_stock () ? ( ( $product->wc_product->get_stock_quantity () == 0 ) ? 'out-of-stock' : 'in-stock' ) : 'not-managing'; ?>">
+	<?php echo $product->wc_product->managing_stock () ? $product->get_stock_on_hand() : 'Not Managing Stock'; ?>
+</td>
 <td class="column-name">
 	<?php echo $product->wc_product->get_title (); ?>
 </td>

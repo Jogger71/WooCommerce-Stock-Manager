@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: WooCommerce Stock System
+ * Plugin Name: WooCommerce Inventory Control
  * Author: Graphite Programming
  * Author URI: http://www.graphiteprogramming.com/
  *

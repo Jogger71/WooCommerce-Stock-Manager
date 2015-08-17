@@ -29,7 +29,8 @@ if ( 'stock_update' == $_REQUEST[ 'submitted' ] ) {
 			<thead>
 				<tr>
 					<th>ID</th>
-					<th>Current Stock</th>
+					<th>Stock Available</th>
+					<th>Stock On Hand</th>
 					<th>Product</th>
 					<th>Add</th>
 					<th>Subtract</th>

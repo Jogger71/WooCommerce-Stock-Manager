@@ -70,7 +70,7 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 				$this->wc_product = wc_get_product ( $id );
 
 				//  Set possible internal values for our variables
-				$this->set_id ( $this->wc_product->id );
+				$this->set_id ( $id );
 				$this->set_name ( $this->wc_product->get_title () );
 				$this->set_image_url ( $this->wc_product->get_image () );
 				$this->set_stock_available ( $this->wc_product->get_stock_quantity () );

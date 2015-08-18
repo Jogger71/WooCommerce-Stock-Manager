@@ -5,31 +5,33 @@
  * @since 0.1.0
  */
 
-$single_products = WSS_Product_Handling::get_products ();
+$single_products = WSS_Product_Handling::get_products();
 
 if ( isset( $_POST[ 'set_stock' ] ) ) {
-	$products = WSS_Product_Handling::get_products ();
+	$products = WSS_Product_Handling::get_products();
 
 	foreach ( $products as $product ) {
 		$product_obj = new WSS_Product( $product->ID );
 
 		switch ( $product_obj->wc_product->product_type ) {
 			case 'simple':
-				if ( $product_obj->wc_product->managing_stock () ) {
-					$product_obj->update_stock_on_hand ( $product_obj->get_stock_available () );
+				if ( $product_obj->wc_product->managing_stock() && empty( get_post_meta( $product_obj->get_id(), 'stock_on_hand', true ) ) ) {
+					$product_obj->update_stock_on_hand( $product_obj->get_stock_available() );
 				}
 				break;
 			case 'variable':
-				$children = $product_obj->wc_product->get_children ();
+				$children = $product_obj->wc_product->get_children();
 				foreach ( $children as $child ) {
-					$child_obj = $product_obj->wc_product->get_child ( $child );
-					update_post_meta ( $child, 'stock_on_hand', $child_obj->get_stock_quantity () );
+					$child_obj = $product_obj->wc_product->get_child( $child );
+					if ( empty( get_post_meta( $child, 'stock_on_hand', true ) ) ) {
+						update_post_meta( $child, 'stock_on_hand', $child_obj->get_stock_quantity() );
+					}
 				}
 				break;
 		}
 
-		if ( $product_obj->wc_product->managing_stock () ) {
-			$product_obj->update_stock_on_hand ( $product_obj->get_stock_available () );
+		if ( $product_obj->wc_product->managing_stock() ) {
+			$product_obj->update_stock_on_hand( $product_obj->get_stock_available() );
 		}
 	}
 
@@ -55,7 +57,6 @@ if ( isset( $_POST[ 'set_stock' ] ) ) {
 		<thead>
 			<tr>
 				<th style="border: 1px solid #000; padding: 10px;">ID</th>
-				<th style="border: 1px solid #000; padding: 10px;">Image</th>
 				<th style="border: 1px solid #000; padding: 10px;">Name</th>
 				<th style="border: 1px solid #000; padding: 10px;">Total Sales</th>
 				<th style="border: 1px solid #000; padding: 10px;">Stock Available</th>
@@ -69,32 +70,30 @@ if ( isset( $_POST[ 'set_stock' ] ) ) {
 
 			switch ( $wss_product->wc_product->product_type ) {
 				case 'simple':
-					if ( $wss_product->wc_product->managing_stock () ):
+					if ( $wss_product->wc_product->managing_stock() ):
 						?>
 						<tr>
-							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_id (); ?></td>
-							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_image_url (); ?></td>
-							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_name (); ?></td>
-							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_total_sales (); ?></td>
-							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_stock_available (); ?></td>
-							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_stock_on_hand (); ?></td>
+							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_id(); ?></td>
+							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_name(); ?></td>
+							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_total_sales(); ?></td>
+							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_stock_available(); ?></td>
+							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_stock_on_hand(); ?></td>
 						</tr>
 						<?php
 					endif;
 					break;
 				case 'variable':
-					$children = $wss_product->wc_product->get_children ();
+					$children = $wss_product->wc_product->get_children();
 					foreach ( $children as $child ) {
-						$child_obj = $wss_product->wc_product->get_child ( $child );
-						if ( $child_obj->managing_stock () ):
+						$child_obj = new WSS_Product( $child );
+						if ( $child_obj->wc_product->managing_stock() ):
 							?>
 							<tr>
-								<td style="border: 1px solid #000; padding: 10px;"><?php echo $child_obj->id; ?></td>
-								<td style="border: 1px solid #000; padding: 10px;"><?php echo $child_obj->get_image (); ?></td>
-								<td style="border: 1px solid #000; padding: 10px;"><?php echo $child_obj->get_formatted_name (); ?></td>
-								<td style="border: 1px solid #000; padding: 10px;"><?php echo get_post_meta ( $child_obj->id, 'total_sales', true ); ?></td>
-								<td style="border: 1px solid #000; padding: 10px;"><?php echo $child_obj->get_stock_quantity (); ?></td>
-								<td style="border: 1px solid #000; padding: 10px;"><?php echo get_post_meta ( $child, 'stock_on_hand', true ); ?></td>
+								<td style="border: 1px solid #000; padding: 10px;"><?php echo $child_obj->get_id(); ?></td>
+								<td style="border: 1px solid #000; padding: 10px;"><?php echo $child_obj->get_name(); ?></td>
+								<td style="border: 1px solid #000; padding: 10px;"><?php echo $child_obj->get_total_sales(); ?></td>
+								<td style="border: 1px solid #000; padding: 10px;"><?php echo $child_obj->get_stock_available(); ?></td>
+								<td style="border: 1px solid #000; padding: 10px;"><?php echo $child_obj->get_stock_on_hand(); ?></td>
 							</tr>
 							<?php
 						endif;

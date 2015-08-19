@@ -12,10 +12,10 @@
 <td class="column-id">
 	<?php echo $product_object->get_id(); ?>
 </td>
-<td class="column-stock <?php echo $product_object->wc_product->managing_stock() ? ( ( $product_object->wc_product->get_stock_quantity() == 0 ) ? 'out-of-stock' : 'in-stock' ) : 'not-managing'; ?>">
+<td class="column-stock <?php echo $product_object->wc_product->managing_stock() ? ( $product_object->wc_product->is_in_stock() ? ( $product_object->wc_product->get_stock_quantity() <= get_option( 'woocommerce_notify_low_stock_amount' ) ? 'low-stock' : 'in-stock' ) : 'out-of-stock' ) : 'not-managing'; ?>">
 	<?php echo $product_object->wc_product->managing_stock() ? $product_object->wc_product->get_stock_quantity() : 'Not Managing Stock'; ?>
 </td>
-<td class="column-stock <?php echo $product_object->wc_product->managing_stock() ? ( ( $product_object->wc_product->get_stock_quantity() == 0 ) ? 'out-of-stock' : 'in-stock' ) : 'not-managing'; ?>">
+<td class="column-stock <?php echo $product_object->wc_product->managing_stock() ? ( $product_object->wc_product->is_in_stock() ? ( $product_object->wc_product->get_stock_quantity() <= get_option( 'woocommerce_notify_low_stock_amount' ) ? 'low-stock' : 'in-stock' ) : 'out-of-stock' ) : 'not-managing'; ?>">
 	<?php echo $product_object->wc_product->managing_stock() ? $product_object->get_stock_on_hand() : 'Not Managing Stock'; ?>
 </td>
 <td class="column-name">

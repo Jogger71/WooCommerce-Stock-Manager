@@ -34,15 +34,6 @@ if ( isset( $_POST[ 'set_stock' ] ) ) {
 			$product_obj->update_stock_on_hand( $product_obj->get_stock_available() );
 		}
 	}
-
-	/*$products = WSS_Product_Handling::get_variation_products ();
-
-	foreach ( $products as $product ) {
-		$product_obj = new WSS_Product( $product->ID );
-		if ( $product_obj->wc_product->managing_stock () ) {
-			$product_obj->update_stock_on_hand ( $product_obj->get_stock_available () );
-		}
-	}*/
 }
 
 ?>

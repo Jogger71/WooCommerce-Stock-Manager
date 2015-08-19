@@ -14,8 +14,20 @@ if ( 'stock_update' == $_REQUEST[ 'submitted' ] ) {
 	foreach ( $product_amounts as $key => $amount ) {
 		//  $update_product = wc_get_product( $key );
 		$update_product = new WSS_Product( $key );
-		$update_product->wc_product->set_stock( $amount, $product_update_method[ $key ] );
-		$update_product->update_stock_on_hand( $amount, $product_update_method[ $key ] );
+		$update_value_selection = $_REQUEST[ 'update_value' ];
+
+		switch ( $update_value_selection[ $key ] ) {
+			case 'both':
+				$update_product->wc_product->set_stock( $amount, $product_update_method[ $key ] );
+				$update_product->update_stock_on_hand( $amount, $product_update_method[ $key ] );
+				break;
+			case 'available':
+				$update_product->wc_product->set_stock( $amount, $product_update_method[ $key ] );
+				break;
+			case 'on-hand':
+				$update_product->update_stock_on_hand( $amount, $product_update_method[ $key ] );
+				break;
+		}
 	}
 }
 
@@ -35,6 +47,7 @@ if ( 'stock_update' == $_REQUEST[ 'submitted' ] ) {
 					<th>Add</th>
 					<th>Subtract</th>
 					<th>Set</th>
+					<th>Update Value</th>
 					<th>Amount</th>
 				</tr>
 			</thead>

@@ -167,7 +167,7 @@ table {
 #stock-adjust-table .column-stock {
     font-weight: bold;
     text-align: center;
-    width: 10%;
+    width: 5%;
 }
 
 #stock-adjust-table .column-name {
@@ -178,6 +178,10 @@ table {
 #stock-adjust-table .column-subtract,
 #stock-adjust-table .column-set {
     width: 5%;
+}
+
+#stock-adjust-table .column-value {
+    width: 10%;
 }
 
 #stock-adjust-table .column-amount {

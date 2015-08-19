@@ -42,6 +42,13 @@
 		<span class="switch-handle"></span>
 	</label>
 </td>
+<td class="column-value">
+	<select name="update_value[<?php echo $product_object->get_id(); ?>]">
+		<option value="both" selected="selected">Both</option>
+		<option value="available">Stock Available</option>
+		<option value="on-hand">Stock On Hand</option>
+	</select>
+</td>
 <td class="column-amount">
 	<input type="text" name="stock_update_amount[<?php echo $product_object->get_id(); ?>]" placeholder="Amount"/>
 </td>

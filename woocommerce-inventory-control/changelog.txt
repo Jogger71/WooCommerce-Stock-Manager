@@ -1,2 +1,6 @@
+Version 0.2.0 -- Minor Release
+	+ Added the ability to individually set available and set stock
+	+ Added more color codings, yellow for low stock
+
 Version 0.1.0 -- Initial Release
 	Initial Release simply gives an overview of all the products' stock levels.

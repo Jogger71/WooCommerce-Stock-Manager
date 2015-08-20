@@ -122,5 +122,24 @@ if ( ! class_exists ( 'WSS_Product_Handling' ) ) {
 				return empty( get_post_meta ( $product->id, '_bundle_data' ) );
 			}
 		}
+
+		/**
+		 * Convert an WSS_Product object to an array
+		 * @param WSS_Product $product
+		 * @return array|bool
+		 * @since 0.3.0
+		 */
+		public static function wss_product_to_array( $product ) {
+			if ( is_object( $product ) && $product instanceof WSS_Product ) {
+				return array(
+					$product->get_id(),
+					$product->get_name(),
+					$product->get_stock_available(),
+					$product->get_stock_on_hand()
+				);
+			} else {
+				return false;
+			}
+		}
 	}
 }

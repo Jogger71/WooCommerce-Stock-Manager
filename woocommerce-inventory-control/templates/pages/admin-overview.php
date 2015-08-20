@@ -44,6 +44,10 @@ if ( isset( $_POST[ 'set_stock' ] ) ) {
 		<input type="hidden" name="set_stock" value="true"/>
 		<input type="submit" name="init_stock" value="Initialise Stock On Hand"/>
 	</form>
+	<form method="post" action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>">
+		<input type="hidden" name="stock_report" value="true" />
+		<input type="submit" name="get_stock_report" value="Get Report" />
+	</form>
 	<table style="border: 1px solid #000; ">
 		<thead>
 			<tr>

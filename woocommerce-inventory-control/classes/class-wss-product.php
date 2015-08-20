@@ -4,11 +4,11 @@
  * A Custom product class for easy use in the WooCommerce Stock System
  */
 
-if ( ! defined ( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-if ( ! class_exists ( 'WSS_Product' ) ) {
+if ( !class_exists( 'WSS_Product' ) ) {
 	class WSS_Product {
 		/**
 		 * Product ID
@@ -85,18 +85,18 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * Class Constructor
 		 * @param int|null $id
 		 */
-		public function __construct ( $id = null ) {
-			if ( ! empty( $id ) ) {
+		public function __construct( $id = null ) {
+			if ( !empty( $id ) ) {
 				//  Initialise WooCommerce product
-				$this->wc_product = wc_get_product ( $id );
+				$this->wc_product = wc_get_product( $id );
 
 				//  Set possible internal values for our variables
-				$this->set_id ( $id );
-				$this->set_name ( $this->wc_product->get_title () );
-				$this->set_image_url ( $this->wc_product->get_image () );
-				$this->set_stock_available ( $this->wc_product->get_stock_quantity () );
-				$this->set_stock_on_hand ( get_post_meta ( $this->get_id (), 'stock_on_hand', true ) );
-				$this->set_total_sales ( get_post_meta ( $this->id, 'total_sales', true ) );
+				$this->set_id( $id );
+				$this->set_name( $this->wc_product->get_title() );
+				$this->set_image_url( $this->wc_product->get_image() );
+				$this->set_stock_available( $this->wc_product->get_stock_quantity() );
+				$this->set_stock_on_hand( get_post_meta( $this->get_id(), 'stock_on_hand', true ) );
+				$this->set_total_sales( get_post_meta( $this->id, 'total_sales', true ) );
 			}
 		}
 
@@ -107,8 +107,8 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @return bool
 		 * @since 0.1.0
 		 */
-		public function set_id ( $value ) {
-			if ( is_int ( $value ) ) {
+		public function set_id( $value ) {
+			if ( is_int( $value ) ) {
 				$this->id = $value;
 				return true;
 			} else {
@@ -122,8 +122,8 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @return bool
 		 * @since 0.1.0
 		 */
-		public function set_name ( $value ) {
-			if ( is_string ( $value ) ) {
+		public function set_name( $value ) {
+			if ( is_string( $value ) ) {
 				$this->name = $value;
 				return true;
 			} else {
@@ -137,8 +137,8 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @return bool
 		 * @since 0.1.0
 		 */
-		public function set_image_url ( $value ) {
-			if ( is_string ( $value ) ) {
+		public function set_image_url( $value ) {
+			if ( is_string( $value ) ) {
 				$this->image_url = $value;
 				return true;
 			} else {
@@ -152,8 +152,8 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @return bool
 		 * @since 0.1.0
 		 */
-		public function set_stock_available ( $value ) {
-			if ( is_int ( $value ) ) {
+		public function set_stock_available( $value ) {
+			if ( is_int( $value ) ) {
 				$this->stock_available = $value;
 				return true;
 			} else {
@@ -167,7 +167,7 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @return bool
 		 * @since 0.1.0
 		 */
-		public function set_stock_on_hand ( $value ) {
+		public function set_stock_on_hand( $value ) {
 			$this->stock_on_hand = $value;
 		}
 
@@ -177,8 +177,8 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @return bool
 		 * @since 0.1.0
 		 */
-		public function set_total_sales ( $value ) {
-			if ( is_int ( $value ) || is_string ( $value ) ) {
+		public function set_total_sales( $value ) {
+			if ( is_int( $value ) || is_string( $value ) ) {
 				$this->total_sales = $value;
 				return true;
 			} else {
@@ -193,9 +193,9 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @since 0.3.0
 		 */
 		public function set_low_stock_set_point( $value ) {
-			if ( ! empty( $value ) ) {
+			if ( !empty( $value ) ) {
 				if ( is_numeric( $value ) ) {
-					$this->low_stock_set_point = (int) $value;
+					$this->low_stock_set_point = (int)$value;
 					return true;
 				} else {
 					return false;
@@ -214,7 +214,7 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 */
 		public function set_out_of_stock_set_point( $value ) {
 			if ( is_numeric( $value ) ) {
-				$this->out_of_stock_set_point = (int) $value;
+				$this->out_of_stock_set_point = (int)$value;
 				return true;
 			} else {
 				return false;
@@ -229,7 +229,7 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 */
 		public function set_reorder_set_point( $value ) {
 			if ( is_numeric( $value ) ) {
-				$this->reorder_set_point = (int) $value;
+				$this->reorder_set_point = (int)$value;
 				return true;
 			} else {
 				return false;
@@ -242,7 +242,7 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @return int
 		 * @since 0.1.0
 		 */
-		public function get_id () {
+		public function get_id() {
 			return $this->id;
 		}
 
@@ -251,10 +251,10 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @return string
 		 * @since 0.1.0
 		 */
-		public function get_name () {
+		public function get_name() {
 			if ( 'variation' == $this->wc_product->product_type ) {
-				$attr = $this->wc_product->get_variation_attributes ();
-				$keys = array_keys ( $attr );
+				$attr = $this->wc_product->get_variation_attributes();
+				$keys = array_keys( $attr );
 				$this->name .= ' ' . $attr[ $keys[ 0 ] ];
 			}
 
@@ -266,7 +266,7 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @return string
 		 * @since 0.1.0
 		 */
-		public function get_image_url () {
+		public function get_image_url() {
 			return $this->image_url;
 		}
 
@@ -275,7 +275,7 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @return int
 		 * @since 0.1.0
 		 */
-		public function get_stock_available () {
+		public function get_stock_available() {
 			return $this->stock_available;
 		}
 
@@ -284,7 +284,7 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @return int
 		 * @since 0.1.0
 		 */
-		public function get_stock_on_hand () {
+		public function get_stock_on_hand() {
 			return $this->stock_on_hand;
 		}
 
@@ -293,31 +293,58 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @return int
 		 * @since 0.1.0
 		 */
-		public function  get_total_sales () {
+		public function  get_total_sales() {
 			return $this->total_sales;
 		}
 
 		/**
+		 * Get the low stock set point value
+		 * @return int
+		 * @since 0.3.0
+		 */
+		public function get_low_stock_set_point() {
+			return $this->low_stock_set_point;
+		}
+
+		/**
+		 * Get the reorder set point value
+		 * @return integer
+		 * @since 0.3.0
+		 */
+		public function get_reorder_set_point() {
+			return $this->reorder_set_point;
+		}
+
+		/**
+		 * Get the out of stock set point value
+		 * @return integer
+		 * @since 0.3.0
+		 */
+		public function get_out_of_stock_set_point() {
+			return $this->out_of_stock_set_point;
+		}
+
+		/**
 		 * Update stock on hand level
-		 * @param int    $value
+		 * @param int $value
 		 * @param string $method
 		 * @since 0.2.0
 		 */
-		public function update_stock_on_hand ( $value, $method = 'set' ) {
+		public function update_stock_on_hand( $value, $method = 'set' ) {
 			switch ( $method ) {
 				case 'add':
-					$current_stock_on_hand = $this->get_stock_on_hand ();
-					$this->set_stock_on_hand ( $current_stock_on_hand + $value );
-					update_post_meta ( $this->get_id (), 'stock_on_hand', $this->get_stock_on_hand () );
+					$current_stock_on_hand = $this->get_stock_on_hand();
+					$this->set_stock_on_hand( $current_stock_on_hand + $value );
+					update_post_meta( $this->get_id(), 'stock_on_hand', $this->get_stock_on_hand() );
 					break;
 				case 'subtract':
-					$current_stock_on_hand = $this->get_stock_on_hand ();
-					$this->set_stock_on_hand ( $current_stock_on_hand - $value );
-					update_post_meta ( $this->get_id (), 'stock_on_hand', $this->get_stock_on_hand () );
+					$current_stock_on_hand = $this->get_stock_on_hand();
+					$this->set_stock_on_hand( $current_stock_on_hand - $value );
+					update_post_meta( $this->get_id(), 'stock_on_hand', $this->get_stock_on_hand() );
 					break;
 				default:
-					$this->set_stock_on_hand ( $value );
-					update_post_meta ( $this->get_id (), 'stock_on_hand', $this->get_stock_on_hand () );
+					$this->set_stock_on_hand( $value );
+					update_post_meta( $this->get_id(), 'stock_on_hand', $this->get_stock_on_hand() );
 					break;
 			}
 		}
@@ -325,11 +352,10 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		/**
 		 * Reduce stock on hand level
 		 * @param int $value
-		 * @return bool
 		 * @since 0.2.0
 		 */
-		public function reduce_stock_on_hand ( $value ) {
-			$this->update_stock_on_hand ( $value, 'subtract' );
+		public function reduce_stock_on_hand( $value ) {
+			$this->update_stock_on_hand( $value, 'subtract' );
 		}
 
 		/**
@@ -337,8 +363,8 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		 * @param int $value
 		 * @since 0.2.0
 		 */
-		public function increase_stock_on_hand ( $value ) {
-			$this->update_stock_on_hand ( $value, 'add' );
+		public function increase_stock_on_hand( $value ) {
+			$this->update_stock_on_hand( $value, 'add' );
 		}
 	}
 }

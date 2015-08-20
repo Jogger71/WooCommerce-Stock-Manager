@@ -31,10 +31,12 @@ if ( ! class_exists ( 'WC_Inventory_Control' ) ) {
 			include ( WSS_PLUGIN_LOCATION . '/classes/class-wcsm-admin.php' );
 			include ( WSS_PLUGIN_LOCATION . '/classes/class-wss-product-handling.php' );
 			include ( WSS_PLUGIN_LOCATION . '/classes/class-wss-product.php' );
+			include ( WSS_PLUGIN_LOCATION . '/classes/class-wss-stock-report.php' );
 			$this->admin = new WCSM_Admin();
 
 			//  Actions
 			add_action ( 'init', array ( $this, 'set_products' ) );
+			add_action ( 'init', array ( $this, 'check_report_request' ) );
 			add_action ( 'admin_enqueue_scripts', array ( $this, 'styling' ) );
 			//  add_action( 'woocommerce_reduce_order_stock', array( $this, 'wss_reduce_stock' ) );
 			add_action ( 'woocommerce_order_status_completed', array ( $this, 'wss_reduce_stock_on_hand' ) );
@@ -54,10 +56,12 @@ if ( ! class_exists ( 'WC_Inventory_Control' ) ) {
 					$product_id = $item[ 'product_id' ];
 					$product_obj = new WSS_Product( $product_id );
 
-					$qty = apply_filters ( 'woocommerce_order_item_quantity', $item[ 'qty' ], $order_obj, $item );
-					$qty = (int)$qty;
+					if ( $product_obj->wc_product->managing_stock() ) {
+						$qty = apply_filters ( 'woocommerce_order_item_quantity', $item[ 'qty' ], $order_obj, $item );
+						$qty = (int)$qty;
 
-					$product_obj->reduce_stock_on_hand ( $qty );
+						$product_obj->reduce_stock_on_hand ( $qty );
+					}
 				}
 			}
 		}
@@ -69,6 +73,16 @@ if ( ! class_exists ( 'WC_Inventory_Control' ) ) {
 		public function styling () {
 			if ( ! wp_style_is ( 'wcsm_interface', 'enqueued' ) ) {
 				wp_enqueue_style ( 'wcsm_interface', plugins_url ( 'assets/css/wcsm_interface.css', __FILE__ ) );
+			}
+		}
+
+		/**
+		 * Check for report request
+		 * @since 0.3.0
+		 */
+		public function check_report_request() {
+			if ( isset( $_POST[ 'stock_report' ] ) ) {
+				WSS_Stock_Report::get_stock_report( array( 'simple', 'variation' ));
 			}
 		}
 	}

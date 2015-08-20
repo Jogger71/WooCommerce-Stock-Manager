@@ -53,6 +53,27 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		private $total_sales;
 
 		/**
+		 * Product Low Stock Set Point
+		 * @var int $low_stock_set_point
+		 * @since 0.3.0
+		 */
+		private $low_stock_set_point;
+
+		/**
+		 * Product Stock Reorder Point
+		 * @var int $reorder_set_point
+		 * @since 0.3.0
+		 */
+		private $reorder_set_point;
+
+		/**
+		 * Product out of stock set point
+		 * @var int $out_of_stock_set_point
+		 * @since 0.3.0
+		 */
+		private $out_of_stock_set_point;
+
+		/**
 		 * WooCommerce product object
 		 * @var WC_Product|WC_Product_Variation|WC_Product_Bundle|WC_Product_Variable|WC_Product_Simple $wc_product
 		 * @since 0.1.0
@@ -159,6 +180,56 @@ if ( ! class_exists ( 'WSS_Product' ) ) {
 		public function set_total_sales ( $value ) {
 			if ( is_int ( $value ) || is_string ( $value ) ) {
 				$this->total_sales = $value;
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Set the low stock set point value
+		 * @param int|string $value
+		 * @return bool
+		 * @since 0.3.0
+		 */
+		public function set_low_stock_set_point( $value ) {
+			if ( ! empty( $value ) ) {
+				if ( is_numeric( $value ) ) {
+					$this->low_stock_set_point = (int) $value;
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				$this->low_stock_set_point = 0;
+				return true;
+			}
+		}
+
+		/**
+		 * Set the out of stock set point value
+		 * @param int|string $value
+		 * @return bool
+		 * @since 0.3.0
+		 */
+		public function set_out_of_stock_set_point( $value ) {
+			if ( is_numeric( $value ) ) {
+				$this->out_of_stock_set_point = (int) $value;
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Set the reorder set point value
+		 * @param int|string $value
+		 * @return bool
+		 * @since 0.3.0
+		 */
+		public function set_reorder_set_point( $value ) {
+			if ( is_numeric( $value ) ) {
+				$this->reorder_set_point = (int) $value;
 				return true;
 			} else {
 				return false;

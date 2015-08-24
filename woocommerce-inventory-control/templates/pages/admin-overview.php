@@ -36,6 +36,58 @@ if ( isset( $_POST[ 'set_stock' ] ) ) {
 	}
 }
 
+if ( isset( $_POST[ 'initialise_stock_available' ] ) ) {
+	$products = WSS_Product_Handling::get_products();
+
+	foreach ( $products as $product ) {
+		$product_obj = new WSS_Product( $product->ID );
+
+		switch ( $product_obj->wc_product->product_type ) {
+			case 'variable':
+				$children = $product_obj->wc_product->get_children();
+				foreach ( $children as $child ) {
+					$child_obj = new WSS_Product( $child );
+					$child_obj->update_stock_available( $child_obj->get_stock_on_hand() );
+				}
+				break;
+			default:
+				if ( $product_obj->wc_product->managing_stock() ) {
+					$product_obj->update_stock_available( $product_obj->get_stock_on_hand() );
+				}
+				break;
+		}
+	}
+
+	$order_args = array(
+			'posts_per_page' => -1,
+			'post_type'      => 'shop_order',
+			'post_status'    => array(
+					'wc-on-hold',
+					'wc-processing'
+			)
+	);
+
+	$order_posts = get_posts( $order_args );
+
+	foreach ( $order_posts as $order_post ) {
+		$order = wc_get_order( $order_post->ID );
+
+		$items = $order->get_items();
+
+		foreach ( $items as $item ) {
+			$product_id = $item[ 'product_id' ];
+			$product_obj = new WSS_Product( $product_id );
+
+			if ( $product_obj->wc_product->managing_stock() ) {
+				$qty = apply_filters( 'woocommerce_order_item_quantity', $item[ 'qty' ], $order, $item );
+				$qty = (int)$qty;
+
+				$product_obj->reduce_stock_available( $qty );
+			}
+		}
+	}
+}
+
 ?>
 
 <div class="wrap">
@@ -45,10 +97,14 @@ if ( isset( $_POST[ 'set_stock' ] ) ) {
 		<input type="submit" name="init_stock" value="Initialise Stock On Hand"/>
 	</form>
 	<form method="post" action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>">
-		<input type="hidden" name="stock_report" value="true" />
-		<input type="submit" name="get_stock_report" value="Get Report" />
+		<input type="hidden" name="initialise_stock_available" value="true"/>
+		<input type="submit" name="init_stock" value="Initialise Stock Available"/>
 	</form>
-	<table style="border: 1px solid #000; ">
+	<form method="post" action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>">
+		<input type="hidden" name="stock_report" value="true"/>
+		<input type="submit" name="get_stock_report" value="Get Report"/>
+	</form>
+	<table id="stock-overview-table" style="border: 1px solid #000; ">
 		<thead>
 			<tr>
 				<th style="border: 1px solid #000; padding: 10px;">ID</th>
@@ -67,7 +123,7 @@ if ( isset( $_POST[ 'set_stock' ] ) ) {
 				case 'simple':
 					if ( $wss_product->wc_product->managing_stock() ):
 						?>
-						<tr>
+						<tr class="<?php echo $wss_product->get_stock_status(); ?>">
 							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_id(); ?></td>
 							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_name(); ?></td>
 							<td style="border: 1px solid #000; padding: 10px;"><?php echo $wss_product->get_total_sales(); ?></td>
@@ -83,7 +139,7 @@ if ( isset( $_POST[ 'set_stock' ] ) ) {
 						$child_obj = new WSS_Product( $child );
 						if ( $child_obj->wc_product->managing_stock() ):
 							?>
-							<tr>
+							<tr class="<?php echo $child_obj->get_stock_status(); ?>">
 								<td style="border: 1px solid #000; padding: 10px;"><?php echo $child_obj->get_id(); ?></td>
 								<td style="border: 1px solid #000; padding: 10px;"><?php echo $child_obj->get_name(); ?></td>
 								<td style="border: 1px solid #000; padding: 10px;"><?php echo $child_obj->get_total_sales(); ?></td>

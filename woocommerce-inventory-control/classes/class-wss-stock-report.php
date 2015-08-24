@@ -17,31 +17,6 @@ if ( !class_exists( 'WSS_Stock_Report' ) ) {
 		 * @param array|string $product_types All the different product types to be included in the report.
 		 */
 		public function __construct( $product_types = 'simple' ) {
-			if ( is_string( $product_types ) ) {
-				$product_types = array( $product_types );
-			}
-
-			if ( is_array( $product_types ) ) {
-				$products = WSS_Product_Handling::get_products();
-				$today = date( 'd-m-Y-H:i:s' );
-
-				$report = fopen( $today . '-stock-report.csv', 'w' );
-
-				$header_array = array(
-					'ID',
-					'Name',
-					'Stock Available',
-					'Stock On Hand'
-				);
-
-				foreach ( $products as $product ) {
-					$wss_product = new WSS_Product( $product->ID );
-					$product_array = WSS_Product_Handling::wss_product_to_array( $wss_product );
-					fputcsv( $report, $product_array );
-				}
-				echo $report;
-				fclose( $report );
-			}
 		}
 
 		/**

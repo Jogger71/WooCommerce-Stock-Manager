@@ -1,0 +1,26 @@
+@media only print {
+	#adminmenumain,
+	#wpadminbar,
+	.update-nag,
+	#update-nag,
+	.error,
+	.updated,
+	form,
+	#wpfooter {
+		display: none;
+	}
+
+	#wpcontent {
+		margin: 0;
+	}
+
+	.wrap {
+		background: white;
+		display: block;
+		width: 98%;
+	}
+
+	#stock-overview-table {
+		width: 100%;
+	}
+}

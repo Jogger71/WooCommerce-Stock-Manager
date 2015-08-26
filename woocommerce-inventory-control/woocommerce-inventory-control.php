@@ -7,7 +7,7 @@
  *
  * Description: A system purely dedicated to stock management in woocommerce.
  *
- * Version: 0.2.0
+ * Version: 0.2.2
  * Release: DEVELOPMENT
  */
 

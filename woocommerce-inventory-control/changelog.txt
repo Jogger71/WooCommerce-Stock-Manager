@@ -1,3 +1,8 @@
+Version 0.2.2 -- Minor Update
+	# Fixed the CSV exported file not opening correctly in excel
+
+	+ Added the individual set points system
+
 Version 0.2.0 -- Minor Release
 	+ Added the ability to individually set available and set stock
 	+ Added more color codings, yellow for low stock

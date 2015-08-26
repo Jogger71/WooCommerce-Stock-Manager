@@ -223,7 +223,8 @@ if ( !class_exists( 'WSS_Product' ) ) {
 		 */
 		public function update_low_stock_set_point( $value ) {
 			if ( is_numeric( $value ) && !empty( $value ) ) {
-				update_post_meta( $this->get_id(), 'wic_low_stock_set_point', $value );
+				$this->set_low_stock_set_point( $value );
+				update_post_meta( $this->get_id(), 'wic_low_stock_set_point', $this->get_low_stock_set_point() );
 				return true;
 			} else {
 				return false;

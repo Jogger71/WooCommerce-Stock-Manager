@@ -42,7 +42,7 @@ if ( !class_exists( 'WSS_Stock_Report' ) ) {
 				$report = fopen( 'php://output', 'w' );
 
 				$header_array = array(
-					'ID',
+					'id',
 					'Name',
 					'Stock Available',
 					'Stock On Hand'

@@ -27,7 +27,7 @@ if ( !class_exists( 'WC_Inventory_Control' ) ) {
 		 */
 		public function __construct() {
 			register_activation_hook( __FILE__, array( $this, 'activation' ) );
-
+			include_once(ABSPATH.'wp-admin/includes/plugin.php');
 			if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 				add_action( 'admin_notices', array( $this, 'need_woocommerce' ) );
 				deactivate_plugins( plugin_basename( __FILE__ ) );
@@ -54,6 +54,7 @@ if ( !class_exists( 'WC_Inventory_Control' ) ) {
 		 * @since 0.3.0
 		 */
 		private function activation() {
+			include_once(ABSPATH.'wp-admin/includes/plugin.php');
 			if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 				add_action( 'admin_notices', array( $this, 'need_woocommerce' ) );
 				deactivate_plugins( plugin_basename( __FILE__ ) );

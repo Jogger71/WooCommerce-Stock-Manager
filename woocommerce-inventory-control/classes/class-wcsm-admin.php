@@ -7,10 +7,31 @@
 
 if ( !class_exists( 'WCSM_Admin' ) ) {
 	class WCSM_Admin {
+		/**
+		 * Instance of the class
+		 *
+		 * @var WCSM_Admin $instance
+		 * @since 0.3.0
+		 */
+		private static $instance;
 
 		public function __construct() {
 			//  Add all the needed actions to create the admin pages
 			add_action( 'admin_menu', array( $this, 'add_admin_menus' ) );
+		}
+
+		/**
+		 * Returns the instance of the class
+		 *
+		 * @return WCSM_Admin
+		 * @since 0.3.0
+		 */
+		public static function get_instance() {
+			if ( ! isset( self::$instance ) && ! self::$instance instanceof WC_Inventory_Control ) {
+				self::$instance = new WCSM_Admin();
+			}
+
+			return self::$instance;
 		}
 
 		public function add_admin_menus() {
@@ -63,3 +84,9 @@ if ( !class_exists( 'WCSM_Admin' ) ) {
 		}
 	}
 }
+
+function wcsm_admin() {
+	return WCSM_Admin::get_instance();
+}
+
+wcsm_admin();

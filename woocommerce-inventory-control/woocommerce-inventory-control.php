@@ -18,6 +18,14 @@ if ( !defined( 'ABSPATH' ) ) {
 if ( !class_exists( 'WC_Inventory_Control' ) ) {
 	class WC_Inventory_Control {
 		/**
+		 * Instance of the class
+		 *
+		 * @var WC_Inventory_Control $instance
+		 * @since 0.3.0
+		 */
+		private static $instance;
+
+		/**
 		 * Admin Class variable
 		 */
 		private $admin;
@@ -25,7 +33,7 @@ if ( !class_exists( 'WC_Inventory_Control' ) ) {
 		/**
 		 * Class Constructor
 		 */
-		public function __construct() {
+		private function __construct() {
 			register_activation_hook( __FILE__, array( $this, 'activation' ) );
 			include_once(ABSPATH.'wp-admin/includes/plugin.php');
 			if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
@@ -35,18 +43,35 @@ if ( !class_exists( 'WC_Inventory_Control' ) ) {
 
 			//  Set some variables
 			define( 'WSS_PLUGIN_LOCATION', dirname( __FILE__ ) );
-			include( WSS_PLUGIN_LOCATION . '/classes/class-wcsm-admin.php' );
-			include( WSS_PLUGIN_LOCATION . '/classes/class-wss-product-handling.php' );
-			include( WSS_PLUGIN_LOCATION . '/classes/class-wss-product.php' );
-			include( WSS_PLUGIN_LOCATION . '/classes/class-wss-stock-report.php' );
-			$this->admin = new WCSM_Admin();
+			include_once( WSS_PLUGIN_LOCATION . '/classes/class-wcic-setup.php' );
+			wcic_setup()->define_constants( WSS_PLUGIN_LOCATION, plugins_url( '', __FILE__ ) );
+
+			include( WSS_PLUGIN_CLASSES_DIR . '/class-wcsm-admin.php' );
+			include( WSS_PLUGIN_CLASSES_DIR . '/class-wss-product-handling.php' );
+			include( WSS_PLUGIN_CLASSES_DIR . '/class-wss-product.php' );
+			include( WSS_PLUGIN_CLASSES_DIR . '/class-wss-stock-report.php' );
+			include( 'global-functions.php' );
 
 			//  Actions
 //			add_action( 'init', array( $this, 'set_products' ) );
 			add_action( 'init', array( $this, 'check_report_request' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'styling' ) );
+			add_action( 'admin_enqueue_scripts', 'wcic_styling' );
 			//  add_action( 'woocommerce_reduce_order_stock', array( $this, 'wss_reduce_stock' ) );
-			add_action( 'woocommerce_order_status_completed', array( $this, 'wss_reduce_stock_on_hand' ), 10, 3 );
+			add_action( 'woocommerce_order_status_completed', 'wss_reduce_stock_on_hand', 10, 3 );
+		}
+
+		/**
+		 * Gets the only instance of the class
+		 *
+		 * @return WC_Inventory_Control
+		 * @since 0.3.0
+		 */
+		public static function get_instance() {
+			if ( ! isset( self::$instance ) && ! self::$instance instanceof WC_Inventory_Control ) {
+				self::$instance = new WC_Inventory_Control();
+			}
+
+			return self::$instance;
 		}
 
 		/**
@@ -73,50 +98,6 @@ if ( !class_exists( 'WC_Inventory_Control' ) ) {
 		}
 
 		/**
-		 * Reduce stock on hand when order is marked completed
-		 *
-		 * @param int $order
-		 * @since 0.2.0
-		 */
-		public function wss_reduce_stock_on_hand( $order ) {
-			if ( is_numeric( $order ) ) {
-				$order_obj = wc_get_order( (int)$order );
-				$items = $order_obj->get_items();
-				foreach ( $items as $item ) {
-					$product_id = $item[ 'product_id' ];
-					$product_obj = new WSS_Product( $product_id );
-
-					if ( $product_obj->wc_product->managing_stock() ) {
-						$qty = apply_filters( 'woocommerce_order_item_quantity', $item[ 'qty' ], $order_obj, $item );
-						$qty = (int)$qty;
-
-						$product_obj->reduce_stock_on_hand( $qty );
-					}
-				}
-			}
-		}
-
-		/**
-		 * Load all style files
-		 * @since 0.2.0
-		 */
-		public function styling() {
-			if ( !wp_style_is( 'wcsm_interface', 'enqueued' ) ) {
-				wp_enqueue_style( 'wcsm_interface', plugins_url( 'assets/css/wcsm_interface.css', __FILE__ ) );
-			}
-
-			if ( !wp_style_is( 'wss_print', 'enqueued' ) ) {
-				wp_enqueue_style( 'wss_print', plugins_url( 'assets/css/wss_print.css', __FILE__ ) );
-			}
-
-			if ( ! wp_script_is( 'jquery', 'enqueued' ) ) {
-				wp_enqueue_script( 'jquery' );
-			}
-
-			wp_enqueue_script( 'wss_scripts', plugins_url( 'assets/js/wss_scripts.js', __FILE__ ), array( 'jquery' ) );
-		}
-
-		/**
 		 * Check for report request
 		 * @since 0.3.0
 		 */
@@ -128,4 +109,8 @@ if ( !class_exists( 'WC_Inventory_Control' ) ) {
 	}
 }
 
-$GLOBALS[ 'wc_inventory_control' ] = new WC_Inventory_Control();
+function WCIC() {
+	return WC_Inventory_Control::get_instance();
+}
+
+WCIC();

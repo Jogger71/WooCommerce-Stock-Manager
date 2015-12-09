@@ -27,7 +27,7 @@ if ( !class_exists( 'WCSM_Admin' ) ) {
 		 * @since 0.3.0
 		 */
 		public static function get_instance() {
-			if ( ! isset( self::$instance ) && ! self::$instance instanceof WC_Inventory_Control ) {
+			if ( ! isset( self::$instance ) && ! self::$instance instanceof WCSM_Admin ) {
 				self::$instance = new WCSM_Admin();
 			}
 

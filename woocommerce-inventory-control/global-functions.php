@@ -32,7 +32,7 @@ function wss_reduce_stock_on_hand( $order ) {
  */
 function wcic_styling() {
 	if ( !wp_style_is( 'wcsm_interface', 'enqueued' ) ) {
-		wp_enqueue_style( 'wcsm_interface', plugins_url( 'assets/css/wcsm_interface.css', __FILE__ ) );
+		wp_enqueue_style( 'wcsm_interface', plugins_url( 'assets/css/wcsm_interface_2.css', __FILE__ ) );
 	}
 
 	if ( !wp_style_is( 'wss_print', 'enqueued' ) ) {

@@ -35,22 +35,15 @@ if ( !class_exists( 'WC_Inventory_Control' ) ) {
 		 */
 		private function __construct() {
 			register_activation_hook( __FILE__, array( $this, 'activation' ) );
-			include_once(ABSPATH.'wp-admin/includes/plugin.php');
-			if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
-				add_action( 'admin_notices', array( $this, 'need_woocommerce' ) );
-				deactivate_plugins( plugin_basename( __FILE__ ) );
-			}
+
+			$this->activation();
 
 			//  Set some variables
-			define( 'WSS_PLUGIN_LOCATION', dirname( __FILE__ ) );
-			include_once( WSS_PLUGIN_LOCATION . '/classes/class-wcic-setup.php' );
-			wcic_setup()->define_constants( WSS_PLUGIN_LOCATION, plugins_url( '', __FILE__ ) );
+			define( 'WSS_PLUGIN', dirname( __FILE__ ) );
+			include_once( WSS_PLUGIN . '/classes/class-wcic-setup.php' );
 
-			include( WSS_PLUGIN_CLASSES_DIR . '/class-wcsm-admin.php' );
-			include( WSS_PLUGIN_CLASSES_DIR . '/class-wss-product-handling.php' );
-			include( WSS_PLUGIN_CLASSES_DIR . '/class-wss-product.php' );
-			include( WSS_PLUGIN_CLASSES_DIR . '/class-wss-stock-report.php' );
-			include( 'global-functions.php' );
+			wcic_setup()->define_constants( WSS_PLUGIN, plugins_url( '', __FILE__ ) );
+			wcic_setup()->includes();
 
 			//  Actions
 //			add_action( 'init', array( $this, 'set_products' ) );

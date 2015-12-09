@@ -61,6 +61,7 @@ if ( ! class_exists( 'WCIC_Setup' ) ) {
 		 * @since 0.3.0
 		 */
 		public function includes() {
+			include_once( WSS_PLUGIN_LOCATION . '/global-functions.php' );
 			include_once( WSS_PLUGIN_CLASSES_DIR . '/class-wcsm-admin.php' );
 			include_once( WSS_PLUGIN_CLASSES_DIR . '/class-wss-product-handling.php' );
 			include_once( WSS_PLUGIN_CLASSES_DIR . '/class-wss-product.php' );

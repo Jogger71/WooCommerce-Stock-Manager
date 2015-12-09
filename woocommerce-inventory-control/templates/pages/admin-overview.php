@@ -92,18 +92,28 @@ if ( isset( $_POST[ 'initialise_stock_available' ] ) ) {
 
 <div class="wrap">
 	<h2>Stock Overview</h2>
-	<form method="post" action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>">
-		<input type="hidden" name="set_stock" value="true"/>
-		<input type="submit" name="init_stock" value="Initialise Stock On Hand"/>
-	</form>
-	<form method="post" action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>">
-		<input type="hidden" name="initialise_stock_available" value="true"/>
-		<input type="submit" name="init_stock" value="Initialise Stock Available"/>
-	</form>
-	<form method="post" action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>">
-		<input type="hidden" name="stock_report" value="true"/>
-		<input type="submit" name="get_stock_report" value="Get Report"/>
-	</form>
+	<table class="button-table">
+		<tr>
+			<td>
+				<form method="post" action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>">
+					<input type="hidden" name="set_stock" value="true"/>
+					<input class="wcic-button green" type="submit" name="init_stock" value="Initialise Stock On Hand"/>
+				</form>
+			</td>
+			<td>
+				<form method="post" action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>">
+					<input type="hidden" name="initialise_stock_available" value="true"/>
+					<input class="wcic-button green" type="submit" name="init_stock" value="Initialise Stock Available"/>
+				</form>
+			</td>
+			<td>
+				<form method="post" action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>">
+					<input type="hidden" name="stock_report" value="true"/>
+					<input class="wcic-button green" type="submit" name="get_stock_report" value="Get Report"/>
+				</form>
+			</td>
+		</tr>
+	</table>
 	<table id="stock-overview-table" style="border: 1px solid #000; ">
 		<thead>
 			<tr>

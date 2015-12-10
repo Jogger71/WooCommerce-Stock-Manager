@@ -1,3 +1,10 @@
+Version 0.3.0 -- Minor Release
+
+	# Updated some code. Converted sections to use the singleton design pattern.
+	# Recreated styling in SCSS format.
+
+	+ Added select2 functionality to the stock update page.
+
 Version 0.2.2 -- Minor Update
 	# Fixed the CSV exported file not opening correctly in excel
 

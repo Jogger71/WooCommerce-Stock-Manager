@@ -58,13 +58,13 @@ if ( isset( $_POST[ 'initialise_stock_available' ] ) ) {
 		}
 	}
 
-	$order_args = array(
-			'posts_per_page' => -1,
-			'post_type'      => 'shop_order',
-			'post_status'    => array(
-					'wc-on-hold',
-					'wc-processing'
-			)
+	$order_args = array (
+		'posts_per_page' => -1,
+		'post_type'      => 'shop_order',
+		'post_status'    => array (
+			'wc-on-hold',
+			'wc-processing'
+		)
 	);
 
 	$order_posts = get_posts( $order_args );

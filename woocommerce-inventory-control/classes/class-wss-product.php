@@ -4,11 +4,11 @@
  * A Custom product class for easy use in the WooCommerce Stock System
  */
 
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-if ( !class_exists( 'WSS_Product' ) ) {
+if ( ! class_exists( 'WSS_Product' ) ) {
 	class WSS_Product {
 		/**
 		 * Product ID
@@ -86,7 +86,7 @@ if ( !class_exists( 'WSS_Product' ) ) {
 		 * @param int|null $id
 		 */
 		public function __construct( $id = null ) {
-			if ( !empty( $id ) ) {
+			if ( ! empty( $id ) ) {
 				//  Initialise WooCommerce product
 				$this->wc_product = wc_get_product( $id );
 
@@ -201,7 +201,7 @@ if ( !class_exists( 'WSS_Product' ) ) {
 		 * @since 0.3.0
 		 */
 		public function set_low_stock_set_point( $value ) {
-			if ( !empty( $value ) ) {
+			if ( ! empty( $value ) ) {
 				if ( is_numeric( $value ) ) {
 					$this->low_stock_set_point = (int)$value;
 					return true;
@@ -222,7 +222,7 @@ if ( !class_exists( 'WSS_Product' ) ) {
 		 * @since 0.3.0
 		 */
 		public function update_low_stock_set_point( $value ) {
-			if ( is_numeric( $value ) && !empty( $value ) ) {
+			if ( is_numeric( $value ) && ! empty( $value ) ) {
 				$this->set_low_stock_set_point( $value );
 				update_post_meta( $this->get_id(), 'wic_low_stock_set_point', $this->get_low_stock_set_point() );
 				return true;
@@ -239,7 +239,7 @@ if ( !class_exists( 'WSS_Product' ) ) {
 		 */
 		public function set_out_of_stock_set_point( $value ) {
 			if ( is_numeric( $value ) ) {
-				$this->out_of_stock_set_point = (int) $value;
+				$this->out_of_stock_set_point = (int)$value;
 				return true;
 			} else {
 				$this->update_out_of_stock_set_point( 0 );
@@ -270,8 +270,8 @@ if ( !class_exists( 'WSS_Product' ) ) {
 		 * @since 0.3.0
 		 */
 		public function set_reorder_set_point( $value ) {
-			if ( is_numeric( $value ) && !empty( $value ) ) {
-				$this->reorder_set_point = (int) $value;
+			if ( is_numeric( $value ) && ! empty( $value ) ) {
+				$this->reorder_set_point = (int)$value;
 				return true;
 			} else {
 				$this->update_reorder_set_point( 25 );
@@ -428,7 +428,7 @@ if ( !class_exists( 'WSS_Product' ) ) {
 
 		/**
 		 * Update stock on hand level
-		 * @param int $value
+		 * @param int    $value
 		 * @param string $method
 		 * @since 0.2.0
 		 */
@@ -471,7 +471,7 @@ if ( !class_exists( 'WSS_Product' ) ) {
 
 		/**
 		 * Update stock available level
-		 * @param int $value
+		 * @param int    $value
 		 * @param string $method
 		 * @since 0.3.0
 		 */

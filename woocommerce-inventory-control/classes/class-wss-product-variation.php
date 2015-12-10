@@ -5,15 +5,15 @@
  * @since 0.2.0
  */
 
-if ( ! defined ( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists ( 'WSS_Product' ) ) {
-	include_once ( WSS_PLUGIN_LOCATION . '/classes/class-wss-product.php' );
+if ( ! class_exists( 'WSS_Product' ) ) {
+	include_once( WSS_PLUGIN_LOCATION . '/classes/class-wss-product.php' );
 }
 
-if ( ! class_exists ( 'WSS_Product_Variation' ) ) {
+if ( ! class_exists( 'WSS_Product_Variation' ) ) {
 	class WSS_Product_Variation extends WSS_Product {
 
 		/**
@@ -29,8 +29,8 @@ if ( ! class_exists ( 'WSS_Product_Variation' ) ) {
 		 * @param WC_Product $parent
 		 * @since 0.2.0
 		 */
-		public function __construct ( $id, $parent ) {
-			$this->set_id ( $id );
+		public function __construct( $id, $parent ) {
+			$this->set_id( $id );
 			$this->parent = $parent;
 		}
 	}

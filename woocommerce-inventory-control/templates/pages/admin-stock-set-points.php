@@ -11,27 +11,26 @@ if ( 'set_points_update' == $_REQUEST[ 'submitted' ] ) {
 
 	update_option( 'wic_stock_keeping_unit', $_POST[ 'stock_keeping_unit' ] );
 
-	foreach( $products as $product_post ) {
+	foreach ( $products as $product_post ) {
 		$product = new WSS_Product( $product_post->ID );
-
 
 
 		switch ( $product->wc_product->product_type ) {
 			case 'simple':
 				$product_object = $product;
 				if ( $product_object->wc_product->managing_stock() ) {
-					$product_object->update_reorder_set_point( $product_reorder_set_point[ (string) $product_object->get_id() ] );
+					$product_object->update_reorder_set_point( $product_reorder_set_point[ (string)$product_object->get_id() ] );
 					$product_object->update_low_stock_set_point( $product_low_stocks[ $product_object->get_id() ] );
-					$product_object->update_out_of_stock_set_point( $product_out_of_stocks[ (string) $product_object->get_id() ] );
+					$product_object->update_out_of_stock_set_point( $product_out_of_stocks[ (string)$product_object->get_id() ] );
 				}
 				break;
 			case 'variable':
 				foreach ( $product->wc_product->get_children() as $child ) {
 					$product_object = new WSS_Product( $child );
 					if ( $product_object->wc_product->managing_stock() ) {
-						$product_object->update_reorder_set_point( $product_reorder_set_point[ (string) $product_object->get_id() ] );
-						$product_object->update_low_stock_set_point( $product_low_stocks[ (string) $product_object->get_id() ] );
-						$product_object->update_out_of_stock_set_point( $product_out_of_stocks[ (string) $product_object->get_id() ] );
+						$product_object->update_reorder_set_point( $product_reorder_set_point[ (string)$product_object->get_id() ] );
+						$product_object->update_low_stock_set_point( $product_low_stocks[ (string)$product_object->get_id() ] );
+						$product_object->update_out_of_stock_set_point( $product_out_of_stocks[ (string)$product_object->get_id() ] );
 					}
 				}
 				break;
@@ -93,7 +92,7 @@ if ( 'set_points_update' == $_REQUEST[ 'submitted' ] ) {
 				}
 			}
 			?>
-</table>
-<input type="submit" class="button button-primary" value="Update Stock"/>
-</form>
+		</table>
+		<input type="submit" class="button button-primary" value="Update Stock"/>
+	</form>
 </div>

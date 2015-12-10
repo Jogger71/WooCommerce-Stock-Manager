@@ -195,40 +195,39 @@ table {
 }
 
 #stock-adjust-table .out_of_stock {
-	color: #fff;
-	background: #f00;
-	font-weight: bold;
+    color: #fff;
+    background: #f00;
+    font-weight: bold;
 }
 
 #stock-adjust-table .in_stock {
-	background: #cfc;
+    background: #cfc;
 }
 
 #stock-adjust-table .low_stock {
-	background: #ff9;
+    background: #ff9;
 }
 
 #stock-adjust-table .reorder_stock {
-	background: #fa0;
-	color: #000;
+    background: #fa0;
+    color: #000;
 }
 
-
 #stock-overview-table tr.reorder_stock {
-	background: #fa0;
-	color: #000;
+    background: #fa0;
+    color: #000;
 }
 
 #stock-overview-table tr.low_stock {
-	background: #ff9;
+    background: #ff9;
 }
 
 #stock-overview-table tr.in_stock {
-	background: #cfc;
+    background: #cfc;
 }
 
 #stock-overview-table tr.out_of_stock {
-	color: #fff;
-	background: #f00;
-	font-weight: bold;
+    color: #fff;
+    background: #f00;
+    font-weight: bold;
 }

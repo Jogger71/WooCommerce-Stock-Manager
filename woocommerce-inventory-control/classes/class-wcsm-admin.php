@@ -5,7 +5,7 @@
  * @since 1.0.0
  */
 
-if ( !class_exists( 'WCSM_Admin' ) ) {
+if ( ! class_exists( 'WCSM_Admin' ) ) {
 	class WCSM_Admin {
 		/**
 		 * Instance of the class
@@ -17,7 +17,7 @@ if ( !class_exists( 'WCSM_Admin' ) ) {
 
 		public function __construct() {
 			//  Add all the needed actions to create the admin pages
-			add_action( 'admin_menu', array( $this, 'add_admin_menus' ) );
+			add_action( 'admin_menu', array ( $this, 'add_admin_menus' ) );
 		}
 
 		/**
@@ -40,7 +40,7 @@ if ( !class_exists( 'WCSM_Admin' ) ) {
 				'WC Stock Manager',
 				'manage_options',
 				'wcsm-stocks',
-				array( $this, 'wcsm_admin_overview' )
+				array ( $this, 'wcsm_admin_overview' )
 			);
 
 			add_submenu_page(
@@ -49,7 +49,7 @@ if ( !class_exists( 'WCSM_Admin' ) ) {
 				'Overview',
 				'manage_options',
 				'wcsm-stocks',
-				array( $this, 'wcsm_admin_overview' )
+				array ( $this, 'wcsm_admin_overview' )
 			);
 
 			add_submenu_page(
@@ -58,7 +58,7 @@ if ( !class_exists( 'WCSM_Admin' ) ) {
 				'Update Stock',
 				'manage_options',
 				'wcsm-update-stocks',
-				array( $this, 'wcsm_admin_updates' )
+				array ( $this, 'wcsm_admin_updates' )
 			);
 
 			add_submenu_page(
@@ -67,7 +67,7 @@ if ( !class_exists( 'WCSM_Admin' ) ) {
 				'Set Points',
 				'manage_options',
 				'wcsm-stock-set-points',
-				array( $this, 'wcsm_admin_set_points' )
+				array ( $this, 'wcsm_admin_set_points' )
 			);
 		}
 

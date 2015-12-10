@@ -5,11 +5,11 @@
  * @since 0.3.0
  */
 
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Cheaters Detected!' );
 }
 
-if ( !class_exists( 'WSS_Stock_Report' ) ) {
+if ( ! class_exists( 'WSS_Stock_Report' ) ) {
 	class WSS_Stock_Report {
 
 		/**
@@ -27,7 +27,7 @@ if ( !class_exists( 'WSS_Stock_Report' ) ) {
 		 */
 		public static function get_stock_report( $product_types = 'simple' ) {
 			if ( is_string( $product_types ) ) {
-				$product_types = array( $product_types );
+				$product_types = array ( $product_types );
 			}
 
 			if ( is_array( $product_types ) ) {
@@ -41,7 +41,7 @@ if ( !class_exists( 'WSS_Stock_Report' ) ) {
 
 				$report = fopen( 'php://output', 'w' );
 
-				$header_array = array(
+				$header_array = array (
 					'id',
 					'Name',
 					'Stock Available',

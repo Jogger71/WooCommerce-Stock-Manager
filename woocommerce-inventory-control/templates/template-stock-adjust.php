@@ -43,7 +43,7 @@
 	</label>
 </td>
 <td class="column-value">
-	<select name="update_value[<?php echo $product_object->get_id(); ?>]">
+	<select class="wcic_dropdown" name="update_value[<?php echo $product_object->get_id(); ?>]">
 		<option value="both" selected="selected">Both</option>
 		<option value="available">Stock Available</option>
 		<option value="on-hand">Stock On Hand</option>

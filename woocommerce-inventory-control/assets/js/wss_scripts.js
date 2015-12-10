@@ -15,4 +15,6 @@ jQuery( document ).ready( function( $ ) {
 		var id = $( this ).attr( 'data-id' );
 		$( '[type="number"][name="reorder_stock_set_point[' + id + ']"').attr( 'max', + $( this).val() - 1 );
 	});
+
+	$( '.wcic_dropdown' ).select2();
 });
